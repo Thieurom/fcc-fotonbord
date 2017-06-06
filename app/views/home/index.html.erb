@@ -11,8 +11,12 @@
     </a>
     <nav class="nav">
       <div class="nav__item">
-        <%= link_to '<div class="account"><i class="fa fa-user-o"></i></div>'.html_safe, '#' %>
-      </div
+        <% if logged_in? %>
+          <%= link_to '', '#', class: 'account account--logged-in', style: 'background-image: url(' + current_user.image_url + ');' %>
+        <% else %>
+          <%= link_to '<div class="account account--not-logged-in"><i class="fa fa-user-o"></i></div>'.html_safe, '/auth/twitter' %>
+        <% end %>
+      </div>
     </nav>
   </div>
 </header>

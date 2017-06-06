@@ -50,11 +50,16 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
+    dotenv (2.2.1)
+    dotenv-rails (2.2.1)
+      dotenv (= 2.2.1)
+      railties (>= 3.2, < 5.2)
     erubis (2.7.0)
     execjs (2.7.0)
     ffi (1.9.18)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
+    hashie (3.5.5)
     i18n (0.8.4)
     jbuilder (2.6.4)
       activesupport (>= 3.0.0)
@@ -80,6 +85,16 @@ GEM
     nio4r (2.1.0)
     nokogiri (1.7.2)
       mini_portile2 (~> 2.1.0)
+    oauth (0.5.3)
+    omniauth (1.6.1)
+      hashie (>= 3.4.6, < 3.6.0)
+      rack (>= 1.6.2, < 3)
+    omniauth-oauth (1.1.0)
+      oauth
+      omniauth (~> 1.0)
+    omniauth-twitter (1.4.0)
+      omniauth-oauth (~> 1.1)
+      rack
     pg (0.20.0)
     puma (3.9.1)
     rack (2.0.3)
@@ -156,9 +171,11 @@ PLATFORMS
 DEPENDENCIES
   byebug
   coffee-rails (~> 4.2)
+  dotenv-rails
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
+  omniauth-twitter
   pg (~> 0.18)
   puma (~> 3.0)
   rails (~> 5.0.3)

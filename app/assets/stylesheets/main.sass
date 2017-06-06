@@ -58,13 +58,26 @@ body
 
 .account
     box-sizing: border-box
+    display: inline-block
     width: 30px
     height: 30px
-    line-height: 28px
-    border: 2px solid $color-brand
     border-radius: 50%
-    text-align: center
-    color: $color-brand
+    vertical-align: middle
+
+    &--not-logged-in
+        line-height: 28px
+        border: 2px solid $color-brand
+        text-align: center
+        color: $color-brand
+    
+    &--logged-in
+        line-height: 30px
+        border: none
+        background:
+            color: $color-white
+            position: center
+            size: cover
+            repeat: no-repeat
 
 
 
