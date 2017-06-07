@@ -6,16 +6,15 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @user = users(:lethieu)
   end
 
-  test "should show correct user" do
+  test "should show correct user when user exists" do
     get user_path(@user.nickname)
     assert_template 'users/show'
     assert_select 'div.user-info div.user__name', { count: 1, text: @user.name }
   end
 
-  test "should show logout path when logged in" do
-    #log_in_as(@user)
-    #get user_path(@user.nickname)
-    #assert_template 'users/show'
-    #assert_select 'a[href=?]', logout_path
+  test "should show error page when user does not exist" do
+    assert_raise ActiveRecord::RecordNotFound do
+      get user_path('not_existed_user')
+    end
   end
 end
