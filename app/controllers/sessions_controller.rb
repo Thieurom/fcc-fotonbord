@@ -6,7 +6,12 @@ class SessionsController < ApplicationController
       log_in user
     rescue
     end
-    redirect_to root_path
+    redirect_to root_url
+  end
+
+  def destroy
+    log_out
+    redirect_to root_url
   end
 
   def auth_failure

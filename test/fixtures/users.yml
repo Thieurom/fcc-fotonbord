@@ -1,0 +1,6 @@
+lethieu:
+  provider: "twitter"
+  uid: "123456"
+  nickname: "Le Thieu"
+  name: "lethieu"
+  image_url: "http://example.com/avatar.jpg"

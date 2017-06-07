@@ -1,0 +1,13 @@
+<div class="user-info">
+  <div class="card">
+    <div class="user">
+      <div class="user__avatar" style=<%= "background-image:url(#{@user.image_url});" %>></div>
+      <div class="user__name"><%= @user.name %></div>
+    </div>
+    <% if @user == current_user %>
+      <div class="action">
+        <%= link_to 'Log out', logout_path, method: :delete, class: 'button' %>
+      </div>
+    <% end %>
+  </div>
+</div>
