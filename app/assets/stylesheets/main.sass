@@ -37,6 +37,9 @@ a
     line-height: 30px
     color: $color-brand
 
+    &--vertical
+        height: auto
+
     &__logo
         box-sizing: border-box
         display: inline-block
@@ -46,6 +49,9 @@ a
         border-radius: 3px
         vertical-align: middle
 
+        .brand--vertical &
+            margin-bottom: 10px
+
     &__name
         display: inline-block
         margin-left: 5px
@@ -53,13 +59,20 @@ a
         text-transform: uppercase
         vertical-align: middle
 
+        .brand--vertical &
+            display: block
+
         & > span:last-child
             margin-left: -5px
             font-weight: 500
 
 
 .nav
+    display: flex
     margin-left: auto
+
+    &__item
+        margin-left: 20px
 
 
 .account
@@ -67,8 +80,12 @@ a
     display: inline-block
     width: 30px
     height: 30px
+    padding: 0
+    border: 0
     border-radius: 50%
+    background-color: $color-white
     vertical-align: middle
+    cursor: pointer
 
     &--not-logged-in
         line-height: 28px
@@ -116,13 +133,16 @@ a
     box-sizing: border-box
     display: inline-block
     height: 28px
-    padding-left: 10px
-    padding-right: 10px
+    padding: 0 10px
     line-height: 26px
     border: 1px solid $color-gray
     border-radius: 3px
+    background-color: $color-white
     color: $color-gray
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif
     font-size: 13px
+    font-weight: 500
+    text-align: center
     cursor: pointer
     transition: all 0.2s
 
@@ -130,6 +150,74 @@ a
         border-color: $color-gray-dark
         color: $color-gray-dark
 
+    &--primary
+        width: 100%
+        height: 36px
+        line-height: 34px
+        border: none
+        background-color: $color-brand
+        color: $color-white
+
+        &:hover
+            border-color: none
+            background-color: rgba($color-brand,0.9)
+            color: $color-white
+
+
+.add-foton-btn
+    display: inline-block
+    width: 30px
+    height: 30px
+    padding: 0
+    border: 0
+    border-radius: 3px
+    line-height: 30px
+    background-color: $color-brand
+    color: $color-white
+    text-align: center
+    font-size: 14px
+    cursor: pointer
+
+
+.new-foton
+
+    &__label
+        margin-bottom: 20px
+        font-size: 18px
+        font-weight: 500
+
+    &__previewer
+        box-sizing: border-box
+        width: 100%
+        height: 180px
+        margin-bottom: 20px
+        border: 1px solid $color-brand
+
+
+.form
+    &__group
+        margin-bottom: 20px
+
+    &__label
+        display: inline-block
+        margin-bottom: 5px
+        font-size: 13px
+        font-weight: 500
+        color: $color-gray-dark
+
+    &__input
+        box-sizing: border-box
+        width: 100%
+        height: 34px
+        padding: 0
+        border: 1px solid $color-brand
+        border-radius: 3px
+        text-indent: 10px
+        font-size: 13px
+
+        &:focus
+            outline: none
+            border-color: $color-brand
 
 
 
@@ -145,6 +233,39 @@ a
     background-color: $color-white
 
 
+.modal
+    display: none
+    box-sizing: border-box
+    position: fixed
+    top: 0
+    z-index: 1
+    width: 100vw
+    height: 100vh
+    padding-top: 100px
+    background-color: rgba($color-gray-dark,0.8)
+
+    &--shown
+        display: block
+
+    &__header
+        margin-bottom: 20px
+        text-align: center
+
+    &__inner
+        position: relative
+        width: 350px
+        margin: 0 auto
+        padding: 30px 20px 20px
+        border-radius: 3px
+        background-color: $color-white
+
+    &__dismiss
+        position: absolute
+        top: 30px
+        right: 20px
+        cursor: pointer
+
+
 
 // ====================
 // layouts
@@ -152,12 +273,14 @@ a
 
 .header
     height: 45px
-    line-height: 45px
     background-color: $color-white
 
     &__inner
         display: flex
         align-items: center
+        max-width: 1300px
+        height: 100%
+        margin: 0 auto
         padding-left: 20px
         padding-right: 20px
 

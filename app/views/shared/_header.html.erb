@@ -10,13 +10,18 @@
       </div>
     </a>
     <nav class="nav">
-      <div class="nav__item">
-        <% if logged_in? %>
+      <% if logged_in? %>
+        <div class="nav__item">
           <%= link_to '', user_path(current_user.nickname), class: 'account account--logged-in', style: 'background-image: url(' + current_user.image_url + ');' %>
-        <% else %>
-          <%= link_to '<div class="account account--not-logged-in"><i class="fa fa-user-o"></i></div>'.html_safe, twitter_login_path%>
-        <% end %>
-      </div>
+        </div>
+        <div class="nav__item">
+          <button class="add-foton-btn"><i class="fa fa-plus"></i></button>
+        </div>
+      <% else %>
+        <div class="nav__item">
+          <button class="account account--not-logged-in"><i class="fa fa-user-o"></i></button>
+        </div>
+      <% end %>
     </nav>
   </div>
 </header>

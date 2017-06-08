@@ -17,5 +17,10 @@
         <%= yield %>
       </div>
     </main>
+    <% if logged_in? %>
+      <%= render 'shared/new_foton_modal' %>
+    <% else %>
+      <%= render 'shared/login_modal' %>
+    <% end %>
   </body>
 </html>
