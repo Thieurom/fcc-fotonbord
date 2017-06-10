@@ -4,6 +4,7 @@
 
 $color-brand: #BB6BD9
 $color-white: #FFF
+$color-black: #000
 $color-gray: #BDBDBD
 $color-gray-dark: #828282
 
@@ -180,18 +181,46 @@ a
 
 
 .new-foton
-
     &__label
         margin-bottom: 20px
         font-size: 18px
         font-weight: 500
 
     &__previewer
+        position: relative
         box-sizing: border-box
         width: 100%
         height: 180px
         margin-bottom: 20px
         border: 1px solid $color-brand
+        background:
+            size: cover
+            position: center
+            repeat: no-repeat
+
+        &--no-source
+            &:after
+                content: "Foton Preview"
+                display: block
+                width: 100%
+                height: 100%
+                line-height: 178px
+                font-size: 20px
+                font-weight: 500
+                color: $color-gray
+                text-align: center
+
+        &--bad-source
+            &:after
+                content: "Broken Source"
+                display: block
+                width: 100%
+                height: 100%
+                line-height: 178px
+                font-size: 20px
+                font-weight: 500
+                color: $color-gray
+                text-align: center
 
 
 .form
@@ -261,8 +290,17 @@ a
 
     &__dismiss
         position: absolute
-        top: 30px
-        right: 20px
+        top: -15px
+        right: -15px
+        width: 24px
+        height: 24px
+        border: 3px solid $color-white
+        border-radius: 50%
+        font-size: 12px
+        background-color: $color-gray-dark
+        color: $color-white
+        line-height: 24px
+        text-align: center
         cursor: pointer
 
 

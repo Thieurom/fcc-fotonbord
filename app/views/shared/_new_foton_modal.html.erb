@@ -3,15 +3,15 @@
     <div class="modal__dismiss"><i class="fa fa-times"></i></div>
     <div class="new-foton">
       <div class="new-foton__label">Add new Foton</div>
-      <div class="new-foton__previewer"></div>
       <form class="form">
         <div class="form__group">
-          <label for="title" class="form__label">Title</label>
-          <input type="text" id="title" class="form__input" />
-        </div>
-        <div class="form__group">
           <label for="source" class="form__label">Source</label>
-          <input type="text" id="source" class="form__input" />
+          <input type="text" id="source" class="form__input" placeholder="https://..." />
+        </div>
+        <div class="new-foton__previewer new-foton__previewer--no-source"></div>
+        <div class="form__group">
+          <label for="caption" class="form__label">Caption (max. 140 characters)</label>
+          <input type="text" id="caption" class="form__input" maxlength="140" />
         </div>
         <div class="form__group">
           <button class="button button--primary">Add Foton</button>
