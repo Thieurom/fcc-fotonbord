@@ -24,4 +24,12 @@ class UserTest < ActiveSupport::TestCase
       assert_not @user.persisted?
     end
   end
+
+  test "associated fotons should be destroyed" do
+    @user = User.create(provider: "twitter", uid: "54321")
+    @user.fotons.create(source: "https://www.google.com.vn/images/branding/googlelogo/2x/googlelogo_color_120x44dp.png", caption: "Google Logo")
+    assert_difference 'Foton.count', -1 do
+      @user.fotons.delete(@user.fotons.first)
+    end
+  end
 end
