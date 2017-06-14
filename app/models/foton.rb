@@ -14,6 +14,7 @@ end
 
 
 class Foton < ApplicationRecord
+  default_scope -> { order('created_at DESC') }
   has_many :borden_fotons
   has_many :users, through: :borden_fotons
   validates :source, presence: true, source: true

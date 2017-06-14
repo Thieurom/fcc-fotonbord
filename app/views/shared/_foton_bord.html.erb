@@ -1,0 +1,7 @@
+<div class="foton-bord">
+  <div class="grid" data-masonry='{ "itemSelector": ".grid__item", "columnWidth": 320 }'>
+    <% if @fotons.any? %>
+      <%= render @fotons %>
+    <% end %>
+  </div>
+</div>

@@ -2,7 +2,7 @@
 // variables
 // ====================
 
-$color-brand: #BB6BD9
+$color-brand: #9B51E0
 $color-white: #FFF
 $color-black: #000
 $color-gray: #BDBDBD
@@ -13,6 +13,10 @@ $color-gray-dark: #828282
 // ====================
 // base
 // ====================
+
+html
+    min-width: 660px
+
 
 body
     margin: 0
@@ -25,6 +29,15 @@ body
 
 a
     text-decoration: none
+
+
+
+// ====================
+// misc
+// ====================
+
+.no-scroll
+    overflow: hidden
 
 
 
@@ -250,17 +263,53 @@ a
             border-color: $color-brand
 
 
+.foton
+    &__image
+        display: block
+        width: 100%
+        height: auto
+
+
+    &__caption
+        margin-top: 20px
+        margin-bottom: 20px
+        font-size: 14px
+        font-weight: 500
+        color: $color-gray-dark
+
+    &__action
+        text-align: right
+
+    &__btn
+        @extend .button
+        width: 28px
+        padding: 0
+
+
 
 // ====================
 // containers
 // ====================
 
+.grid
+    margin: 0 auto
+
+    &__item
+        margin-bottom: 20px
+
+
 .card
     box-sizing: border-box
-    width: 320px
+    width: 300px
     padding: 20px
     border-radius: 3px
     background-color: $color-white
+    transition: all 0.2s ease-in-out
+
+    &:hover
+        transform: translate(0,-10px)
+        box-shadow: 0 15px 35px 10px rgba($color-black,0.2)
+        cursor: zoom-in
 
 
 .modal
@@ -270,9 +319,12 @@ a
     top: 0
     z-index: 1
     width: 100vw
+    min-width: 500px
     height: 100vh
-    padding-top: 100px
-    background-color: rgba($color-gray-dark,0.8)
+    min-height: 500px
+    padding-top: 150px
+    padding-bottom: 150px
+    background-color: rgba($color-brand,0.95)
 
     &--shown
         display: block
@@ -293,16 +345,60 @@ a
         position: absolute
         top: -15px
         right: -15px
+        box-sizing: border-box
         width: 24px
         height: 24px
+        padding: 0
         border: 3px solid $color-white
         border-radius: 50%
         font-size: 12px
         background-color: $color-gray-dark
         color: $color-white
-        line-height: 24px
+        line-height: 18px
         text-align: center
         cursor: pointer
+
+
+.zoom-foton
+    box-sizing: border-box
+    position: fixed
+    top: 0
+    z-index: 1
+    width: 100vw
+    height: 100vh
+    padding-top: 20px
+    padding-bottom: 20px
+    background-color: rgba($color-brand,0.95)
+
+    &__wrapper
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%,-50%)
+        padding: 20px
+        border-radius: 3px
+        background-color: $color-white
+
+    &__image
+        display: block
+
+
+.zoom-dismiss
+    position: absolute
+    top: 15px
+    right: 15px
+    width: 24px
+    box-sizing: border-box
+    height: 24px
+    padding: 0
+    border: 3px solid $color-white
+    border-radius: 50%
+    font-size: 12px
+    background-color: $color-gray-dark
+    color: $color-white
+    line-height: 18px
+    text-align: center
+    cursor: pointer
 
 
 
@@ -311,6 +407,9 @@ a
 // ====================
 
 .header
+    position: fixed
+    z-index: 1
+    width: 100%
     height: 45px
     background-color: $color-white
 
@@ -325,9 +424,11 @@ a
 
 
 .main
-    min-height: calc(100vh - 45px)
+    min-height: 100vh
     background-color: $color-brand
     color: $color-white
 
     &__inner
-        padding-top: 55px
+        max-width: 1300px
+        margin: 0 auto
+        padding: 100px 20px

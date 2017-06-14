@@ -37,6 +37,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'omniauth-twitter'
 
 gem 'httparty'
+gem 'faker'
 
 group :development, :test do
   gem 'dotenv-rails'

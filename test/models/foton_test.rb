@@ -30,4 +30,8 @@ class FotonTest < ActiveSupport::TestCase
     @foton.source = "http://foo.com/foton.jpg"
     assert_not @foton.valid?
   end
+
+  test "order should be most recent first" do
+    assert_equal fotons(:most_recent), Foton.first
+  end
 end

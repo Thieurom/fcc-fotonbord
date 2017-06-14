@@ -1,9 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  source: MyString
-  caption: MyText
+most_recent:
+  source: 'http://lorempixel/500/500'
+  caption: 'Lorem pixel'
+  created_at: <%= Time.zone.now %>
 
-two:
-  source: MyString
-  caption: MyText
+
+<% 10.times do |n| %>
+foton_<%= n %>:
+  source: <%= Faker::LoremPixel.image("260x#{200 + 100 * rand(5)}") %>
+  caption: <%= Faker::Lorem.sentence %>
+  created_at: <%= 2.hours.ago %>
+<% end %>

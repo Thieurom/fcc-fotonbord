@@ -4,12 +4,14 @@ $(document).on('turbolinks:load', function() {
   $('.add-foton-btn, .account--not-logged-in').click(function(e) {
     e.preventDefault();
     $('.modal').addClass('modal--shown');
+    $('body').addClass('no-scroll');
   });
 
 
   // hide modal
   $('.modal__dismiss').click(function() {
     $('.modal').removeClass('modal--shown');
+    $('body').removeClass('no-scroll');
     resetForm();
   });
 
@@ -17,7 +19,8 @@ $(document).on('turbolinks:load', function() {
     e.stopPropagation();
 
     if ($(e.target).hasClass('modal--shown')) {
-      $('.modal').removeClass('modal--shown');
+      $(this).removeClass('modal--shown');
+      $('body').removeClass('no-scroll');
       resetForm();
     }
   });
@@ -45,10 +48,13 @@ $(document).on('turbolinks:load', function() {
   });
 
 
+  // supporting function
   function resetForm() {
-    $('.form')[0].reset();
-    $('.new-foton__previewer')
-      .removeClass('new-foton__previewer--bad-source')
-      .addClass('new-foton__previewer--no-source');
+    if ($('.form')[0]) {
+      $('.form')[0].reset();
+      $('.new-foton__previewer')
+        .removeClass('new-foton__previewer--bad-source')
+        .addClass('new-foton__previewer--no-source');
+    }
   }
 });
