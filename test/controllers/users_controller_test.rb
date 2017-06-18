@@ -9,7 +9,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "should show correct user when user exists" do
     get user_path(@user.nickname)
     assert_template 'users/show'
-    assert_select 'div.user-info div.user__name', { count: 1, text: @user.name }
+    assert_select 'div.profile div.user__name', { count: 1, text: @user.name }
   end
 
   test "should show error page when user does not exist" do

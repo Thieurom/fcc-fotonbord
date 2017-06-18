@@ -1,0 +1,9 @@
+<% @foton.errors.full_messages.each do |msg| %>
+    <% if msg.start_with?('Source') %>
+        $('input#foton_source').addClass('form__input--error')
+            .after($('<div class="form__error"><%= msg %></div>'));
+    <% elsif msg.start_with?('Caption') %>
+        $('textarea#foton_caption').addClass('form__text--error')
+            .after($('<div class="form__error"><%= msg %></div>'));
+    <% end %>
+<% end %>

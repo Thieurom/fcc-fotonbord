@@ -54,6 +54,35 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_select 'a[href=?]', user_path('user'), count: 0
   end
 
+  test "create new foton" do
+    # Log in
+    OmniAuth.config.mock_auth[:twitter] = OmniAuth::AuthHash.new({
+      provider: 'twitter',
+      uid: '12345',
+      info: {
+        name: 'User',
+        nickname: 'user',
+        image: 'http://example.com/avatar.jpg'
+      }
+    })
+    get twitter_login_path
+    follow_redirect!  # redirected to /auth/twitter/callback
+    follow_redirect!
+    # Post invalid
+    assert_no_difference 'Foton.count' do
+      post fotons_path, xhr: true, params: { foton: { source: '', caption: '' } }
+    end
+    assert_response :unprocessable_entity
+    assert_select '.form__error'
+    # Post valid
+    source = "https://www.google.com.vn/images/branding/googlelogo/2x/googlelogo_color_120x44dp.png"
+    caption = "Google Logo" 
+    assert_difference 'Foton.count', 1 do
+      post fotons_path, xhr: true, params: { foton: { source: source, caption: caption } }
+    end
+    assert_response :created
+  end
+
   def teardown
     OmniAuth.config.mock_auth[:twitter] = nil
     OmniAuth.config.test_mode = false

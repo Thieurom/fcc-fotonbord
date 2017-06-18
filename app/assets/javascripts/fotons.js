@@ -1,83 +1,270 @@
+// global objects
+var modal;
+var fotonZoomer;
+var $grid;
+
+
+
 $(document).on('turbolinks:load', function() {
 
-  // setup masonry grid layout
-  $('.grid').masonry({
-    itemSelector: '.grid__item',
-    columnWidth: 300,
-    gutter: 20,
-    fitWidth: true
-  });
-  
+    // setup masonry grid layout
+    $grid = $('.foton-bord .grid');
+    $grid.masonry({
+        itemSelector: '.grid__item',
+        columnWidth: 300,
+        gutter: 20,
+        fitWidth: true
+    });
 
-
-  // relayout after all fotons loaded
-  var $fotonImages = $('.foton-bord .foton__image');
-  var count = $fotonImages.length;
-
-  $fotonImages.on('load', function() {
-    count--;
-
-    if (!count) {
-      $('.grid').masonry();
-    }
-  });
+    // =======================================================================
 
 
 
-  // zoom in on foton
-  $('.foton-bord .card').click(function() {
+    // modal wrapper object
+    modal = (function() {
 
-    // determine the display size
-    var fotonUrl = $(this).find('.foton__image').attr('src');
+        var $modal = $('.modal');
+        var $dismiss = $modal.find('.modal__dismiss');
+        var cb = null;
 
-    var $image = $('<img/>', { 'class': 'zoom-foton__image' })
-      .on('load', function() {
-        var w = $(this).width();
-        var h = $(this).height();
+        $dismiss.click(function() {
+            modal.dismiss();
+        });
 
-        if (w > h) {
+        $modal.click(function(e) {
+            e.stopPropagation();
 
-          $(this).css({
-            'width': Math.min(w, $(window).width() - 100) + 'px',
-            'height': h + 'px'
-          });
+            if ($(e.target).hasClass('modal--shown')) {
+                modal.dismiss();
+            }
+        });
 
+        return {
+            show: function(dismissCallback) {
+                $modal.addClass('modal--shown');
+                $('body').addClass('no-scroll');
+                cb = dismissCallback;
+            },
+
+            dismiss: function() {
+                $('.modal').removeClass('modal--shown');
+                $('body').removeClass('no-scroll');
+                if (cb && typeof cb === 'function') cb();
+                cb = null;
+            }
+        };
+    })();
+
+
+    // display modal for login
+    $('.account--not-logged-in').click(function() {
+        modal.show();
+    });
+
+
+    // display modal for creating new foton
+    $('.add-foton-btn').click(function() {
+        modal.show(function() {
+            var form = $('.form')[0];
+
+            if (form) {
+                // clear input's content
+                form.reset();
+
+                // reset previewer
+                $(form).find('.new-foton__previewer')
+                    .removeClass('new-foton__previewer--bad-source')
+                    .addClass('new-foton__previewer--no-source')
+                    .removeAttr('style');
+
+                // remove errors if any
+                $(form).find('.form__error').remove();
+                $(form).find('.form__input').removeClass('form__input--error');
+            }
+        });
+    });
+
+    // =======================================================================
+
+
+
+    // preview image from source input
+    $('input#foton_source').change(function() {
+        var fotonUrl = $(this).val();
+
+        if ((/^https?:\/\//).test(fotonUrl)) {
+            // create a temporary image element
+            $('<img />')
+                .on('error', function() {
+                    $('.new-foton__previewer')
+                        .removeClass('new-foton__previewer--no-source')
+                        .addClass('new-foton__previewer--bad-source')
+                        .removeAttr('style')
+                })
+                .on('load', function() {
+                    $('.new-foton__previewer')
+                        .removeClass('new-foton__previewer--no-source')
+                        .removeClass('new-foton__previewer--bad-source')
+                        .css('background-image', 'url(' + fotonUrl + ')');
+                })
+                .attr('src', fotonUrl);
         } else {
-
-          $(this).css({
-            'width': w + 'px',
-            'height': Math.min(h, $(window).height() - 100) + 'px'
-          });
+            $('.new-foton__previewer')
+                .removeClass('new-foton__previewer--no-source')
+                .addClass('new-foton__previewer--bad-source')
+                .removeAttr('style')
         }
-      });
-
-    $image.attr('src', fotonUrl);
-
-
-    // add modal to DOM
-    var $zoomFoton = $('<div/>', { 'class': 'zoom-foton' });
-
-    $zoomFoton.click(function(e) {
-      e.stopPropagation();
-
-      if ($(e.target).hasClass('zoom-foton')) {
-        $(this).remove();
-        $('body').removeClass('no-scroll');
-      }
     });
 
-    var $zoomDismiss = $('<button/>', { 'class': 'zoom-dismiss' }).append($('<i/>', { 'class': 'fa fa-times' }));
+    // =======================================================================
 
-    $zoomDismiss.click(function() {
-      $(this).closest('.zoom-foton').remove();
-      $('body').removeClass('no-scroll');
+
+
+    // load fotons from external sources
+    var $fotonImages = $('.foton-bord .foton__image');
+    var count = $fotonImages.length;
+
+    $fotonImages.each(function() {
+        var $this = $(this);
+
+        $this.on('load', function() {
+            var width = $this[0].naturalWidth;
+            var height = $this[0].naturalHeight;
+            var caption = $this.data('caption');
+
+            $this.attr('data-natural-width', width);
+            $this.attr('data-natural-height', height);
+            $this.attr('alt', caption);
+
+            $this.removeAttr('data-src');
+            $this.removeAttr('data-caption');
+            $this.removeAttr('style');
+
+
+            count--;
+
+            // relayout after all fotons loaded
+            if (!count) {
+                $grid.masonry();
+            }
+        });
+
+        $this.attr('src', $this.data('src'));
     });
 
+    // =======================================================================
 
-    $zoomFoton.append($zoomDismiss)
-      .append($('<div/>', { 'class': 'zoom-foton__wrapper' }).append($image))
-      .appendTo($('body'));
 
-    $('body').addClass('no-scroll');
-  });
+
+    //foton zoomer
+    fotonZoomer = (function() {
+
+        var foton = null;
+
+        var $zoomer = $('<div class="zoom-foton" />');
+
+        var $dismiss = $('<button class="zoom-dismiss"><i class="fa fa-times"></i></button>');
+
+        var $image = $('<img class="zoom-foton__image" />')
+            .on('load', function() {
+                var w = foton.width;
+                var h = foton.height;
+                var MAX_ZOOM_SIZE = 580;
+
+                if (w < MAX_ZOOM_SIZE && h < MAX_ZOOM_SIZE) {
+                    $(this).css({
+                        'width': w + 'px',
+                        'height': h + 'px'
+                    });
+
+                } else {
+                    if (w > h) {
+                        $(this).css({
+                            'width': MAX_ZOOM_SIZE + 'px',
+                            'height': 'auto'
+                        });
+
+                    } else {
+                        $(this).css({
+                            'height': MAX_ZOOM_SIZE + 'px',
+                            'width': 'auto'
+                        });
+                    }
+                }
+            });
+
+
+        $zoomer.append($dismiss, $('<div class="zoom-foton__wrapper" />').append($image));
+
+
+        $zoomer.click(function(e) {
+            e.stopPropagation();
+
+            if ($(e.target).hasClass('zoom-foton')) {
+                fotonZoomer.dismiss();
+            }
+        });
+
+
+        $dismiss.click(function() {
+            fotonZoomer.dismiss();
+        });
+
+
+        return {
+            zoom: function(source) {
+                foton = source;
+
+                // start loading image
+                $image.attr('src', foton.url);
+
+                // add zoomer to DOM
+                $zoomer.appendTo($('body'));
+                $('body').addClass('no-scroll');
+            },
+
+            dismiss: function() {
+                $zoomer.detach();
+                $('body').removeClass('no-scroll');
+                foton = null;
+            }
+        };
+    })();
+
+
+
+    // zoom in on foton
+    $('.foton-bord .card').click(function() {
+        var $image = $(this).find('.foton__image');
+
+        var url = $image.attr('src');
+        var width = $image.data('natural-width');
+        var height = $image.data('natural-height');
+
+        fotonZoomer.zoom({ url: url, width: width, height: height });
+    });
+
+    // =======================================================================
+
+
+
+    // creating new foton
+    $('.form').on('submit', function() {
+        // remove errors if any
+        $(this).find('.form__error').remove();
+        $(this).find('.form__input').removeClass('form__input--error');
+
+        // temporarily hide the form
+        $(this).closest('.modal').removeClass('modal--shown');
+
+        // add freeze overlay on top of page
+        $('<div class="freeze-overlay"><div class="spinner"><i class="fa fa-spinner"></i></div></div>').appendTo('body');
+
+    }).on('ajax:error', function() {
+        // show the form again
+        $(this).closest('.modal').addClass('modal--shown');
+
+        // remove freeze overlay
+        $('.freeze-overlay').remove();
+    });
 });

@@ -3,20 +3,20 @@
     <button class="modal__dismiss"><i class="fa fa-times"></i></button>
     <div class="new-foton">
       <div class="new-foton__label">Add new Foton</div>
-      <form class="form">
+      <%= form_for(@foton, remote: true, html: { class: 'form' }) do |f| %>
         <div class="form__group">
-          <label for="source" class="form__label">Source</label>
-          <input type="text" id="source" class="form__input" placeholder="https://..." />
+          <%= f.label :source, class: 'form__label' %>
+          <%= f.text_field :source, class: 'form__input', placeholder: 'https://...' %>
         </div>
         <div class="new-foton__previewer new-foton__previewer--no-source"></div>
         <div class="form__group">
-          <label for="caption" class="form__label">Caption (max. 140 characters)</label>
-          <input type="text" id="caption" class="form__input" maxlength="140" />
+          <%= f.label :caption, 'Caption (max. 140 characters)', class: 'form__label' %>
+          <%= f.text_area :caption, class: 'form__text', maxlength: 140, rows: 4 %>
         </div>
         <div class="form__group">
-          <button class="button button--primary">Add Foton</button>
+          <%= f.submit 'Add Foton', class: 'button button--primary' %>
         </div>
-      </form>
+      <% end %>
     </div>
   </div>
 </div>

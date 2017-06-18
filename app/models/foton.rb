@@ -4,10 +4,10 @@ class SourceValidator < ActiveModel::EachValidator
     begin
       response = HTTParty.head(value)
       unless response.code == 200 && response.headers['content-type'].start_with?('image')
-        record.errors[attribute] << "Given source is not a valid image" 
+        record.errors[attribute] << "is not a valid image" 
       end
-    rescue URI::InvalidURIError
-      record.errors[attribute] << "Given source is not a valid URL" 
+    rescue
+      record.errors[attribute] << "is not a valid URL" 
     end
   end
 end

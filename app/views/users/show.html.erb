@@ -1,13 +1,17 @@
-<div class="user-info">
-  <div class="card">
-    <div class="user">
-      <div class="user__avatar" style=<%= "background-image:url(#{@user.image_url});" %>></div>
-      <div class="user__name"><%= @user.name %></div>
-    </div>
-    <% if @user == current_user %>
-      <div class="action">
-        <%= link_to 'Log out', logout_path, method: :delete, class: 'button' %>
+<div class="profile">
+  <div class="user">
+    <div class="user__avatar" style=<%= "background-image:url(#{@user.image_url});" %>></div>
+    <div class="user__detail">
+      <div class="user__name-action">
+        <div class="user__name"><%= @user.name %></div>
+        <% if @user == current_user %>
+          <div class="user__action">
+            <%= link_to 'Log out', logout_path, method: :delete, class: 'button' %>
+          </div>
+        <% end %>
       </div>
-    <% end %>
+      <div class="user__fotons"><span class="user__fotons-count"><%= pluralize(@user.fotons.count, '') %></span> fotons</div>
+    </div>
   </div>
 </div>
+<%= render 'shared/foton_bord' %>
