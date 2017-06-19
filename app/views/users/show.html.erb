@@ -10,7 +10,8 @@
           </div>
         <% end %>
       </div>
-      <div class="user__fotons"><span class="user__fotons-count"><%= pluralize(@user.fotons.count, '') %></span> fotons</div>
+      <div class="user__fotons">
+        <span class="user__fotons-count"><%= @user.fotons.count %></span> <%= @user.fotons.count == 1 ? 'foton' : 'fotons' %></div>
     </div>
   </div>
 </div>

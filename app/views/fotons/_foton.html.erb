@@ -1,12 +1,18 @@
 <div class="grid__item">
   <div class="card">
-    <div class="foton">
+    <div class="foton" data-foton-id=<%= foton.id %>>
       <img class="foton__image" data-src=<%= foton.source %> data-caption="<%= foton.caption %>"
      style="width:100%;height:150px;background-color:#bdbdbd;" />
       <div class="foton__caption"><%= foton.caption %></div>
       <div class="foton__action">
+        <div class="foton__likes">
+          <span class="foton__likes-count"><%= foton.likes.count %></span> <%= foton.likes.count == 1 ? 'like' : 'likes' %></div>
         <button class="foton__btn foton__add"><i class="fa fa-plus"></i></button>
-        <button class="foton__btn foton__like"><i class="fa fa-heart"></i></button>
+        <% if logged_in? && liked_by?(foton.likes, current_user) %>
+          <button class="foton__btn foton__btn--activated foton__like"><i class="fa fa-heart"></i></button>
+        <% else %>
+          <button class="foton__btn foton__like"><i class="fa fa-heart"></i></button>
+        <% end %>
       </div>
     </div>
   </div>

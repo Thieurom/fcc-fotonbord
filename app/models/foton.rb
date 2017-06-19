@@ -17,6 +17,7 @@ class Foton < ApplicationRecord
   default_scope -> { order('created_at DESC') }
   has_many :borden_fotons
   has_many :users, through: :borden_fotons
+  has_many :likes, dependent: :destroy
   validates :source, presence: true, source: true
   validates :caption, presence: true, length: { maximum: 140 }
 end
