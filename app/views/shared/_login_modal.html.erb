@@ -3,12 +3,11 @@
     <div class="modal__header">
       <div class="brand brand--vertical">
         <div class="brand__logo"></div>
-        <div class="brand__name">
-          <span>Foton</span>
-          <span>Bord</span>
-        </div>
+        <div class="brand__name">FotonBord</div>
       </div>
     </div>
-    <%= link_to 'Log in with Twitter', twitter_login_path, class: 'button button--primary' %>
+    <%= link_to twitter_login_path, class: 'button button--primary' do %>
+      <i class="fa fa-twitter"></i> Log in with Twitter
+    <% end %>
   </div>
 </div>

@@ -1,18 +1,8 @@
 <div class="profile">
-  <div class="user">
-    <div class="user__avatar" style=<%= "background-image:url(#{@user.image_url});" %>></div>
-    <div class="user__detail">
-      <div class="user__name-action">
-        <div class="user__name"><%= @user.name %></div>
-        <% if @user == current_user %>
-          <div class="user__action">
-            <%= link_to 'Log out', logout_path, method: :delete, class: 'button' %>
-          </div>
-        <% end %>
-      </div>
-      <div class="user__fotons">
-        <span class="user__fotons-count"><%= @user.fotons.count %></span> <%= @user.fotons.count == 1 ? 'foton' : 'fotons' %></div>
-    </div>
+  <div class="profile__avatar" style=<%= "background-image:url(#{@user.image_url});" %>></div>
+  <div class="profile__name"><%= @user.name %></div>
+  <div class="profile__fotons">
+    <span class="profile__fotons-count"><%= @user.fotons.count %></span> <%= @user.fotons.count == 1 ? 'foton' : 'fotons' %>
   </div>
 </div>
-<%= render 'shared/foton_bord' %>
+<%= render 'shared/foton_bord', current_user_bord: true %>

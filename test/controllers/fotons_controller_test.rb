@@ -17,4 +17,20 @@ class FotonsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to root_url
   end
+
+  test "should redirect update when not logged in" do
+    @foton = fotons(:foton_1)
+    assert_no_difference 'BordenFoton.count' do
+      patch foton_path(@foton)
+    end
+    assert_redirected_to root_url
+  end
+
+  test "should redirect destroy when not logged in" do
+    @foton = fotons(:foton_1)
+    assert_no_difference 'BordenFoton.count' do
+      delete foton_path(@foton)
+    end
+    assert_redirected_to root_url
+  end
 end

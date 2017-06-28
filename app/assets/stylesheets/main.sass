@@ -2,11 +2,13 @@
 // variables
 // ====================
 
-$color-brand: #9B51E0
+$color-brand: #27CAE4
 $color-white: #FFF
 $color-black: #000
-$color-gray: #BDBDBD
-$color-gray-dark: #828282
+$color-gray: #E5E5E5
+$color-gray-light: #F4F4F4
+$color-gray-medium: #B4B4B4
+$color-gray-dark: #212B35
 $color-red: #EB5757
 
 
@@ -25,13 +27,14 @@ body
     margin: 0
     background-color: $color-white
     font:
-        family: 'Roboto', 'Helvetica', 'Arial', sans-serif
+        family: 'Open Sans', 'Helvetica', 'Arial', sans-serif
         size: 16px
-        weight: 300
+        weight: 400
 
 
 a
     text-decoration: none
+    color: inherit
 
 
 
@@ -51,14 +54,17 @@ a
     border: none
     font-size: 22px
     background-color: transparent
-    color: $color-gray
+    color: $color-gray-medium
     line-height: 30px
     text-align: center
     cursor: pointer
     transition: all 0.2s
 
     &:hover
-        color: $color-white
+        color: $color-gray-dark
+
+    &:focus
+        outline: none
 
 
 .freeze-overlay
@@ -84,15 +90,24 @@ a
     color: $color-gray
 
 
+    @keyframes pulse-animation
+        from
+            transform: scale3d(1,1,1)
+        50%
+            transform: scale3d(1.1,1.1,1.1)
+        to
+            transform: scale3d(1,1,1)
+
+
+
 // ====================
 // components
 // ====================
 
 .brand
     display: inline-block
-    height: 30px
-    line-height: 30px
-    color: $color-brand
+    color: $color-gray-dark
+    user-select: none
 
     &--vertical
         height: auto
@@ -102,9 +117,11 @@ a
         display: inline-block
         width: 30px
         height: 30px
-        border: 5px solid $color-brand
-        border-radius: 3px
+        border: 6px solid $color-gray-dark
         vertical-align: middle
+
+        &--alt
+            border: 6px solid $color-gray
 
         .brand--vertical &
             margin-bottom: 10px
@@ -112,31 +129,62 @@ a
     &__name
         display: inline-block
         margin-left: 5px
-        font-size: 18px
+        font-size: 28px
+        font-weight: 800
         text-transform: uppercase
         vertical-align: middle
 
         .brand--vertical &
             display: block
 
-        & > span:last-child
-            margin-left: -5px
-            font-weight: 500
-
 
 .nav
     display: flex
-    margin-left: auto
+    width: 100%
+
+    &__left
+        display: flex
+        align-items: center
+        margin-right: auto
+
+        .nav__item
+            margin-right: 20px
+
+    &__right
+        display: flex
+        align-items: center
+        margin-left: auto
+
+        .nav__item
+            margin-left: 20px
 
     &__item
-        margin-left: 20px
+        font-size: 14px
+        font-weight: 600
+        color: $color-gray-medium
+        transition: all 0.2s
+
+        &:hover
+            color: $color-gray-dark
+
+        &--active
+            color: $color-gray-dark
+
+            &:hover
+                color: $color-gray-dark
+
+    &__corner
+        display: inline-block
+        transform: translateY(-8px) rotate(-45deg)
+
+
 
 
 .account
     box-sizing: border-box
     display: inline-block
-    width: 30px
-    height: 30px
+    width: 36px
+    height: 36px
     padding: 0
     border: 0
     border-radius: 50%
@@ -163,67 +211,92 @@ a
             repeat: no-repeat
 
 
-.user
-    display: flex
-    align-items: center
+.profile
+    margin: 0 auto 80px
+    width: 300px
+    text-align: center
 
     &__avatar
-        width: 60px
-        height: 60px
-        margin-right: 20px
+        width: 120px
+        height: 120px
+        margin: 0 auto 20px
         border-radius: 50%
         background:
-            color: $color-white
+            color: $color-gray
             position: center
             size: cover
             repeat: no-repeat
 
-    &__detail
-        display: flex
-        flex-direction: column
-
-    &__name-action
-        display: flex
-        align-items: center
-
     &__name
-        font-size: 20px
-        color: $color-gray
-
-    &__action
-        margin-left: 20px
+        font-size: 24px
+        font-weight: 600
+        color: $color-gray-dark
 
     &__fotons
         margin-top: 5px
-        font-size: 16px
-        color: $color-gray
+        font-size: 18px
+        color: $color-gray-medium
 
     &__fotons-count
-        font-weight: 500
+        font-weight: 600
 
 
-.profile
-    box-sizing: border-box
-    margin: 0 auto 55px
-    width: 300px
-    padding: 20px
-    border-radius: 3px
-    background-color: $color-white
+.user-like
+    display: flex
+    align-items: center
+
+
+.users
+    display: flex
+    align-items: center
+    list-style-type: none
+    margin: 0
+    padding: 0
+
+
+.user
+    margin-right: 5px
+    padding: 0
+
+    &__avatar
+        display: block
+        width: 30px
+        height: 30px
+        border-radius: 50%
+        background:
+            color: $color-gray
+            position: center
+            size: cover
+            repeat: no-repeat
+
+
+.likes
+    margin-left: auto
+    font-size: 14px
+    color: $color-gray-medium
+    
+    &__status
+        i
+            font-size: 16px
+
+        &--user-activated
+            color: $color-brand
+
 
 
 .button
     box-sizing: border-box
     display: inline-block
-    height: 28px
-    padding: 0 10px
-    line-height: 28px
+    height: 36px
+    padding: 0 15px
+    line-height: 36px
     border: 1px solid $color-gray
     border-radius: 3px
     background-color: $color-white
     color: $color-gray
-    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif
+    font-family: 'Open Sans', 'Helvetica', 'Arial', sans-serif
     font-size: 11px
-    font-weight: 500
+    font-weight: 600
     text-align: center
     text-transform: uppercase
     cursor: pointer
@@ -238,11 +311,10 @@ a
 
     &--primary
         width: 100%
-        height: 36px
-        line-height: 36px
         border: none
-        background-color: $color-brand
+        background-color: rgba($color-brand,0.8)
         color: $color-white
+        box-shadow: inset 0 -4px 0 $color-brand
 
         &:hover
             border: none
@@ -250,29 +322,12 @@ a
             color: $color-white
 
 
-.add-foton-btn
-    display: inline-block
-    width: 30px
-    height: 30px
-    padding: 0
-    border: 0
-    border-radius: 3px
-    line-height: 30px
-    background-color: $color-brand
-    color: $color-white
-    text-align: center
-    font-size: 14px
-    cursor: pointer
-
-    &:focus
-        outline: none
-
 
 .new-foton
     &__label
         margin-bottom: 20px
         font-size: 18px
-        font-weight: 500
+        font-weight: 600
 
     &__previewer
         position: relative
@@ -319,7 +374,7 @@ a
         display: inline-block
         margin-bottom: 5px
         font-size: 13px
-        font-weight: 500
+        font-weight: 600
         color: $color-gray-dark
 
     &__input
@@ -365,44 +420,74 @@ a
 
 
 .foton
+    position: relative
+
     &__image
+        position: relative
         display: block
         width: 100%
         height: auto
 
+        &--broken
+            &:after
+                content: "Not Available"
+                position: absolute
+                top: 0
+                left: 0
+                right: 0
+                bottom: 0
+                z-index: 2
+                line-height: 150px
+                font-size: 20px
+                font-weight: 500
+                background-color: $color-gray-light
+                color: $color-gray-medium
+                text-align: center
+
     &__caption
         margin-top: 20px
-        margin-bottom: 20px
+        margin-bottom: 40px
         font-size: 15px
-        color: $color-black
+        color: $color-gray-dark
 
     &__action
+        position: absolute
+        top: 10px
+        left: 10px
         display: flex
-        justify-content: flex-end
         align-items: center
+        width: calc(100% - 20px)
+        opacity: 0
+        transition: all 0.2s
 
-    &__likes
-        margin-right: auto
-        font-size: 12px
-        font-weight: 500
-        color: $color-gray-dark
+        .foton:hover &
+            opacity: 1
 
     &__btn
         @extend .button
-        width: 28px
-        margin-left: 5px
-        padding: 0
+        width: auto
+        height: 32px
+        line-height: 32px
+        padding: 0 10px
+        font-size: 12px
+        border: 1px solid $color-gray
+        color: $color-gray-medium
+        opacity: 0.7
 
-        &--activated
-            border: none
-            background-color: $color-brand
-            color: $color-white
+        &:hover
+            border: 1px solid $color-gray
+            color: $color-gray-medium
+            opacity: 1
+
+        &:last-child
+            margin-left: auto
+
+        &--user-activated
+            color: $color-brand
+            animation: pulse-animation 0.2s
 
             &:hover
-                border: none
-                background-color: $color-brand
-                color: $color-white
-
+                color: $color-brand
 
 
 
@@ -412,22 +497,18 @@ a
 
 .grid
     margin: 0 auto
-
+    
     &__item
         margin-bottom: 20px
 
 
 .card
     box-sizing: border-box
-    width: 300px
-    padding: 20px
-    border-radius: 3px
+    width: 305px
+    padding: 15px
     background-color: $color-white
-    transition: all 0.2s ease-in-out
 
     &:hover
-        transform: translate(0,-10px)
-        box-shadow: 0 15px 35px 10px rgba($color-black,0.2)
         cursor: zoom-in
 
 
@@ -441,7 +522,7 @@ a
     bottom: 0
     z-index: 1
     padding-top: 150px
-    background-color: rgba($color-brand,0.95)
+    background-color: rgba($color-black,0.8)
 
     &--shown
         display: block
@@ -475,7 +556,10 @@ a
     height: 100vh
     padding-top: 20px
     padding-bottom: 20px
-    background-color: rgba($color-brand,0.95)
+    background-color: $color-gray-light
+
+    &:hover
+        cursor: zoom-out
 
     &__wrapper
         position: absolute
@@ -505,7 +589,8 @@ a
     position: fixed
     z-index: 1
     width: 100%
-    height: 45px
+    height: 75px
+    border-bottom: 1px solid $color-gray
     background-color: $color-white
 
     &__inner
@@ -514,16 +599,36 @@ a
         max-width: 1300px
         height: 100%
         margin: 0 auto
-        padding-left: 20px
-        padding-right: 20px
+        padding-left: 40px
+        padding-right: 40px
+
+    &__center
+        position: absolute
+        left: 0
+        right: 0
+        z-index: -1
+        height: 100%
+        margin: 0 auto
+        line-height: 75px
+        text-align: center
+
 
 
 .main
     min-height: 100vh
-    background-color: $color-brand
-    color: $color-white
+    background-color: $color-gray-light
 
     &__inner
         max-width: 1300px
         margin: 0 auto
-        padding: 100px 20px
+        padding: 150px 20px 20px
+
+
+.footer
+    background-color: $color-gray-light
+
+    &__inner
+        max-width: 1300px
+        margin: 0 auto
+        padding: 50px 40px
+        text-align: center

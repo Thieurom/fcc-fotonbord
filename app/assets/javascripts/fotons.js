@@ -11,7 +11,7 @@ $(document).on('turbolinks:load', function() {
     $grid = $('.foton-bord .grid');
     $grid.masonry({
         itemSelector: '.grid__item',
-        columnWidth: 300,
+        columnWidth: 305,
         gutter: 20,
         fitWidth: true
     });
@@ -57,13 +57,14 @@ $(document).on('turbolinks:load', function() {
 
 
     // display modal for login
-    $('.account--not-logged-in').click(function() {
+    $('a#login').click(function(e) {
+        e.preventDefault();
         modal.show();
     });
 
 
     // display modal for creating new foton
-    $('.add-foton-btn').click(function() {
+    $('.header .button--primary').click(function() {
         modal.show(function() {
             var form = $('.form')[0];
 
@@ -147,6 +148,8 @@ $(document).on('turbolinks:load', function() {
             if (!count) {
                 $grid.masonry();
             }
+        }).on('error', function() {
+            $this.addClass('foton__image--broken');
         });
 
         $this.attr('src', $this.data('src'));
@@ -266,5 +269,55 @@ $(document).on('turbolinks:load', function() {
 
         // remove freeze overlay
         $('.freeze-overlay').remove();
+    });
+
+    // =======================================================================
+
+
+
+    // link current foton to user's bord
+    $('button.foton__link').click(function(e) {
+        var $this = $(this);
+
+        e.stopPropagation();
+
+        // check if user is logged in
+        if ($('.nav__left .nav__item').length == 2) {
+            $this.addClass('foton__btn--user-activated');
+
+            var fotonId = $this.closest('.foton').data('foton-id');
+            $.ajax({
+                url: '/fotons/' + fotonId,
+                method: 'PATCH'
+            }).fail(function() {
+                $this.removeClass('foton__btn--user-activated');
+            });
+
+        } else {
+            modal.show();
+        }
+    });
+
+
+    // unlink current foton from user's bord
+    $('button.foton__unlink').click(function(e) {
+        var $this = $(this);
+
+        e.stopPropagation();
+
+        if ($('.nav__left .nav__item').length == 2) {
+            var fotonId = $this.closest('.foton').data('foton-id');
+
+            $.ajax({
+                url: '/fotons/' + fotonId,
+                method: 'DELETE'
+            }).done(function() {
+                $grid.masonry('remove', $this.closest('.grid__item'))
+                    .masonry('layout');
+            });
+
+        } else {
+            modal.show();
+        }
     });
 });

@@ -1,44 +1,54 @@
 $(document).on('turbolinks:load', function() {
     $('button.foton__like').click(function(e) {
+        var $this = $(this);
+        var $foton = $this.closest('.foton');
+
         e.stopPropagation();
 
         // check if user is logged in
-        if ($('button.account--not-logged-in')) {
-            modal.show();
+        if ($('.nav__left .nav__item').length == 2) {
+            var $count = $this.find('.foton__likes');
+            var count = parseInt($count.text()) || 0;
 
-        } else {
-            $(this).toggleClass('foton__btn--activated');
-
-            var $likes = $(this).siblings('.foton__likes');
-            var currentContent = $likes.html();
             var isLiking;
 
-            var count = parseInt($likes.find('.foton__likes-count').text());
-
-            if ($(this).hasClass('foton__btn--activated')) {
-                count++;
-                isLiking = true;
-
-            } else {
+            if ($this.hasClass('foton__btn--user-activated')) {
                 count--;
                 isLiking = false;
+
+            } else {
+                count++;
+                isLiking = true;
             }
 
             // immediately make visual changes
-            $likes.html(function() {
-                return '<span class="foton__likes-count">' + count + '</span>' + (count == 1 ? ' like' : ' likes');
-            });
+            $this.toggleClass('foton__btn--user-activated');
+            if (count == 0) {
+                $count.text('');
+            } else {
+                $count.text(count);
+            }
 
             // then send the request
-            var fotonId = $(this).closest('.foton').data('foton-id');
+            var fotonId = $foton.data('foton-id');
 
             $.ajax({
                 url: '/likes/' + fotonId + (isLiking ? '/like' : '/unlike'),
                 method: 'POST'
             }).fail(function() {
                 // reset the likes to before request
-                $likes.html(currentContent);
+                $this.toggleClass('foton__btn--user-activated');
+
+                count = (isLiking ? count - 1 : count + 1);
+                if (count == 0) {
+                    $count.text('');
+                } else {
+                    $count.text(count);
+                }
             });
+
+        } else {
+            modal.show();
         }
     });
 });

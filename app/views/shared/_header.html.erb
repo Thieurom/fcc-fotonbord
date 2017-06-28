@@ -1,27 +1,44 @@
 <header class="header">
   <div class="header__inner">
-    <a class="home-link" href="/">
+    <div class="header__center">
       <div class="brand">
         <div class="brand__logo"></div>
-        <div class="brand__name">
-          <span>Foton</span>
-          <span>Bord</span>
-        </div>
+        <div class="brand__name">fotonbord</div>
       </div>
-    </a>
+    </div>
     <nav class="nav">
-      <% if logged_in? %>
-        <div class="nav__item">
-          <%= link_to '', user_path(current_user.nickname), class: 'account account--logged-in', style: 'background-image: url(' + current_user.image_url + ');' %>
-        </div>
-        <div class="nav__item">
-          <button class="add-foton-btn"><i class="fa fa-plus"></i></button>
-        </div>
-      <% else %>
-        <div class="nav__item">
-          <button class="account account--not-logged-in"><i class="fa fa-user-o"></i></button>
-        </div>
-      <% end %>
+      <div class="nav__left">
+        <% if request.original_url == root_url %>
+          <div class="nav__item nav__item--active">
+            <%= link_to 'Home', root_path %>
+          </div>
+        <% else %>
+          <div class="nav__item">
+            <%= link_to 'Home', root_path %>
+          </div>
+        <% end %>
+        <% if logged_in? %>
+          <div class="nav__item">
+            <%= link_to logout_path, method: :delete do %>
+              Logout <span class="nav__corner"><i class="fa fa-caret-right"></i></span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <div class="nav__right">
+        <% if logged_in? %>
+          <div class="nav__item">
+            <%= link_to '', user_path(current_user.nickname), class: 'account account--logged-in', style: 'background-image: url(' + current_user.image_url + ');' %>
+          </div>
+          <div class="nav__item">
+            <button class="button button--primary"><i class="fa fa-plus"></i> New</button>
+          </div>
+        <% else %>
+          <div class="nav__item">
+            <button class="button button--primary">Login</button>
+          </div>
+        <% end %>
+      </div>
     </nav>
   </div>
 </header>

@@ -41,10 +41,6 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     get user_path('user')
     assert_select 'a[href=?]', user_path('user'), count: 1
     assert_select 'a[href=?]', logout_path
-    # To other user's page
-    get user_path(users(:lethieu).nickname)
-    assert_select 'a[href=?]', user_path('user'), count: 1
-    assert_select 'a[href=?]', logout_path, count: 0
     # Log out
     delete logout_path
     assert session[:user_id].nil?
@@ -68,6 +64,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     get twitter_login_path
     follow_redirect!  # redirected to /auth/twitter/callback
     follow_redirect!
+    # Create new foton
     # Post invalid
     assert_no_difference 'Foton.count' do
       post fotons_path, xhr: true, params: { foton: { source: '', caption: '' } }
@@ -81,6 +78,20 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
       post fotons_path, xhr: true, params: { foton: { source: source, caption: caption } }
     end
     assert_response :created
+
+    # Link a foton
+    @foton = fotons(:foton_1)
+    assert_difference 'BordenFoton.count', 1 do
+      patch foton_path(@foton)
+    end
+    assert_response :ok
+
+    # Unlink a foton
+    @foton = fotons(:foton_1)
+    assert_difference 'BordenFoton.count', -1 do
+      delete foton_path(@foton)
+    end
+    assert_response :no_content
   end
 
   def teardown
