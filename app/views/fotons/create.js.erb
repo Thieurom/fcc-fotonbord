@@ -1,37 +1,41 @@
-// render new foton
-var $newFoton = $('<%= j (render @foton) %>');
-var $fotonImage = $newFoton.find('.foton__image');
+(function() {
 
-$fotonImage.on('load', function() {
-    var width = $(this)[0].naturalWidth;
-    var height = $(this)[0].naturalHeight;
-    var caption = $(this).data('caption');
+    // render new foton
+    var $newFoton = $('<%= j (render @foton) %>');
+    var $fotonImage = $newFoton.find('.foton__image');
 
-    $(this).attr('data-natural-width', width);
-    $(this).attr('data-natural-height', height);
-    $(this).attr('alt', caption);
-  
-    $newFoton.find('.card').click(function() {
-        fotonZoomer.zoom({
-            url: $fotonImage.attr('src'),
-            width: width,
-            height: height
+    $fotonImage.on('load', function() {
+        var width = $(this)[0].naturalWidth;
+        var height = $(this)[0].naturalHeight;
+        var caption = $(this).data('caption');
+
+        $(this).attr('data-natural-width', width);
+        $(this).attr('data-natural-height', height);
+        $(this).attr('alt', caption);
+      
+        $newFoton.find('.card').click(function() {
+            fotonZoomer.zoom({
+                url: $fotonImage.attr('src'),
+                width: width,
+                height: height
+            });
         });
+
+        $(this).removeAttr('data-src');
+        $(this).removeAttr('data-caption');
+        $(this).removeAttr('style');
+
+        // remove freeze overlay
+        $('.freeze-overlay').remove();
+
+        // close the foton creation form
+        modal.dismiss();
+
+        // add to DOM and relayout the grid
+        $grid.prepend($newFoton).masonry('prepended', $newFoton);
     });
 
-    $(this).removeAttr('data-src');
-    $(this).removeAttr('data-caption');
-    $(this).removeAttr('style');
 
-    // remove freeze overlay
-    $('.freeze-overlay').remove();
+    $fotonImage.attr('src', $fotonImage.data('src'));
 
-    // close the foton creation form
-    modal.dismiss();
-
-    // add to DOM and relayout the grid
-    $grid.prepend($newFoton).masonry('prepended', $newFoton);
-});
-
-
-$fotonImage.attr('src', $fotonImage.data('src'));
+})();
